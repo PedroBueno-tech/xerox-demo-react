@@ -1,21 +1,70 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+html, body { 
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+ }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+button{
+  border: 1px solid rgb(193, 193,193);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.bodyDiv{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: rgb(#EBEBEB);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.contentContainer{
+  height: auto;
+  width: 80vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(#EBEBEB);
+  border: 1px solid rgb(193, 193,193);
+  border-radius: 0;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loadingScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(51, 51, 51, 0.5);
+  display: flex;
+  z-index: 99;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingScreen div {
+
+  padding: 20px;
+  background-color: rgba(235, 235, 235);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingScreen img{
+  animation: spin 2s linear infinite;;
+  width: 50px;
+  height: 50px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); 
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  100% {
+    transform: rotate(360deg);
+  }
 }
