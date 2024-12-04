@@ -1,3 +1,9 @@
 .inputFile{
     border: none !important;
 }
+
+.button-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

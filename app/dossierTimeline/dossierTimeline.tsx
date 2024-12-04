@@ -31,22 +31,39 @@ export default function DossierTimeline({ dossier, documentTypes, setLoading, up
       setStart('OK')
       let docStatuses = false;
       let forms = false;
+
       for (let doctypeList of documentTypes || []) {
-        if((doctypeList.code === 'forma' || doctypeList.code === 'formb') && doctypeList.flag === true && !forms){
-          forms = true
-        } else if (doctypeList.flag === true && doctypeList.code !== 'other' && doctypeList.status == 'FINISHED') {
-          docStatuses = true
-        }
-        if(doctypeList.status == 'ERROR'){
+
+        if(doctypeList.code === 'forma' || doctypeList.code === 'formb'){
+
+          if(doctypeList.flag === true && !forms && doctypeList.status === 'FINISHED'){
+            forms = true;
+            docStatuses = true
+          } else if (doctypeList.flag === true && !forms && doctypeList.status === 'ERROR'){
+            setProcessing('NOK')
+            setFinish('NOK')
+            console.log(forms)
+          }
+        } else if(doctypeList.code === 'other'){
+
+        } else if (doctypeList.flag === false) {
+          docStatuses = false
+          setProcessing('LOD')
+        	setFinish('LOD')
+          break;
+        } else if(doctypeList.status == 'ERROR'){
           setProcessing('NOK')
           setFinish('NOK')
+          return;
+
         } else {
-          docStatuses = false
+          docStatuses = true
         }
-        if(docStatuses && forms){
-          setProcessing('OK')
-          setFinish('OK')
-        }
+      }
+
+      if(docStatuses && forms){
+        setProcessing('OK')
+        setFinish('OK')
       }
 
     }

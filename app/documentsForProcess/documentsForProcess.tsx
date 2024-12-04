@@ -103,14 +103,13 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
 
             // Atualize o estado com o array completo de uma vez
             setDocumentTypes(updatedDocs);
-            console.log(response)
         }).catch(error => {
 
         })
 
     }
 
-    function onSubmit() {
+    async function onSubmit() {
         setLoading(true)
         if (inputValue == null || inputValue == '') {
             alert("No name for dossier")
@@ -121,28 +120,29 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             alert("No document for process")
             return;
 
+        } else {
+            const jsonToSend = {
+                dossier: inputValue,
+                files: documents
+            };
+            console.log(jsonToSend)
+            await axios({
+                method: 'post',
+                url: 'https://www-portal.dev.alphaxerox.com.br/dip-service/insertPackage',
+                headers: header,
+                data: jsonToSend
+            }).then(response => {
+                setEnableAdd(false)
+                setLoading(false)
+                setDossier({ dossier: inputValue })
+                setDocuments([])
+            })
         }
-        setJSONtoSend({
-            dossier: inputValue,
-            files: documents
-        })
-        axios({
-            method: 'post',
-            url: 'https://www-portal.dev.alphaxerox.com.br/dip-service/insertPackage',
-            headers: header,
-            data: JSONtoSend
-        }).then(response => {
-            console.log(response)
-            setDocuments([])
-            searchDossier()
-        })
-
     }
 
 
     //Console.log para ver o que está sendo enviado ao backend está fora da função pois o react é assincrono então ele rodava antes do JSONtoSend
     useEffect(() => {
-        console.log("Updated JSONtoSend:", JSONtoSend);
     }, [JSONtoSend]);
     //verifica se o conteudo de dossier id não foi apagado
     useEffect(() => {

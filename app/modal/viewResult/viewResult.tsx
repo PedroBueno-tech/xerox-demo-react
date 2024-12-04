@@ -37,19 +37,22 @@ const ViewResult = ({ item, setModal }) => {
                             LOGS:
                             <button onClick={() => setLogs(!logs)}>Show</button>
                             {logs ? (
-                                <ul>
-                                    {item?.logs?.map((log: any) => (
-                                        <li key={log.id}>
-                                            Status: {log?.statusNew ?? "No status"}, Step: {log?.stepNew ?? "No Step"}
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <ul>
-                                    <li key="nolog">No logs to show</li>
-                                </ul>
-                            )}
+                                item?.logs && item.logs.length > 0 ? (
+                                    <ul>
+                                        {item.logs.map((log: any, index: number) => (
+                                            <li key={log.id || index}>
+                                                Status: {log?.statusNew ?? "No status"}, Step: {log?.stepNew ?? "No Step"}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <ul>
+                                        <li key="no-logs">No logs to show</li>
+                                    </ul>
+                                )
+                            ) : null}
                         </li>
+
                         <li>
                             Details:
                             <button onClick={() => setMore(!more)}>Show More</button>

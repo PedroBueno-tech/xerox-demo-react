@@ -7,8 +7,19 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
   const [base64String, setBase64String] = useState<string | null>(null);
   const [inputFileName, setInputFileName] = useState<string>('');
 
+  const [fileName, setFileName] = useState("No file chosen");
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setFileName(file ? file.name : "No file chosen");
+  };
+
+  const onFileSelectedChange = (event) => {
+    handleFileChange(event)
+    onFileSelected(event)
+  }
+
   const onFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("hello");
     const input = event.target;
 
     if (!input.files || input.files.length === 0) {
@@ -26,7 +37,6 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
       const base64WithPrefix = reader.result as string;
       const base64WithoutPrefix = base64WithPrefix.replace(/^data:.*;base64,/, ''); // Remove o prefixo
       setBase64String(base64WithoutPrefix); // Armazena a string Base64
-      console.log(file, base64String)
     };
 
     reader.onerror = (error) => {
@@ -46,6 +56,8 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
       console.error('No file selected or file content is invalid');
       return;
     }
+    console.log(inputFileName)
+    console.log(base64String)
     addDocuments(inputFileName, base64String);
     setModal(false);
   };
@@ -56,13 +68,17 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
         <h2>Upload New Document</h2>
 
         <div>
-          <label htmlFor="fileInput">File Path:</label>
+          <label>File Path: </label>
+          <label htmlFor="fileInput" style={labelStyles}>
+            Choose File
+          </label>
           <input
             id="fileInput"
             type="file"
-            className="inputFile"
-            onChange={onFileSelected}            
+            style={{ display: "none" }}
+            onChange={onFileSelectedChange}
           />
+          <span style={{ marginLeft: "10px" }}>{fileName}</span>
         </div>
 
         <div className="button-group">
@@ -76,6 +92,13 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
       </div>
     </div>
   );
+};
+
+const labelStyles = {
+  border: "1px solid rgb(193, 193,193)",
+  padding: "10px 15px",
+  cursor: "pointer",
+  display: "inline-block",
 };
 
 export default NewDocument;

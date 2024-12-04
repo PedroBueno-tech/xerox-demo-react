@@ -22,6 +22,16 @@ const ProcessedDocuments = ({ dossier }) => {
         setInfoToShow(data)
     }
 
+    const itemStatus = (data:any) => {
+        if(data.status == 'FINISHED'){
+            return 'APPROVED';
+        } else if (data.status == 'IDLE') {
+            return 'PROCESSING'
+        } else if (data.status == 'ERROR'){
+            return 'REJECTED'
+        }
+    }
+
     return (
         
         <div className="body-forProcessedDocuments">
@@ -46,7 +56,7 @@ const ProcessedDocuments = ({ dossier }) => {
                                     <tr key={item.id}>
                                         <td className="dossierId">{item.dossier}</td>
                                         <td className="documentType">{item.code}</td>
-                                        <td className="status">{item.status == 'FINISHED'? 'APPROVED': 'REJECTED'}</td>
+                                        <td className="status">{itemStatus(item)}</td>
                                         <td className="dateAndTime">{formatDateIntl(item.audit.createdOn)}</td>
                                         <td className="result">
                                             <button onClick={() => openModal(item)}>view</button>
