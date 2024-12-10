@@ -14,10 +14,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
     const [enableSearch, setEnableSearch] = useState(true)
     const [modal, setModal] = useState(false);
     const [selectedRow, setSelectedRow] = useState<number>(0);
-    const [JSONtoSend, setJSONtoSend] = useState({
-        dossier: '',
-        files: [] as any[], // Array inicial vazio
-    });
+
     // Inicializa o estado como um array vazio
     const [documents, setDocuments] = useState<{ key: string, base64: string }[]>([]);
 
@@ -35,7 +32,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         setInputValue(event.target.value);
     };
     const handleRowClick = (id: number) => {
-        console.log(id)
+
         setSelectedRow(id); // Define a linha selecionada
     };
 
@@ -54,6 +51,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             url: 'https://www-portal.dev.alphaxerox.com.br/doctype-service/v1/jobdossiers?size=500',
             headers: header,
         }).then(response => {
+            console.log(response)
             dossierList = response.data._embedded.JobDossiers;
             dossierList.forEach((item: any) => {
                 if (item.dossier == inputValue) {
@@ -63,13 +61,13 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             if (!foundedDossier) {
                 setLoading(false);
                 setDossier({ dossier: inputValue })
-                alert('No dossier found')
+                alert('No dossier found - you can use this dossier number to upload your files')
                 setEnableAdd(true)
                 return;
             }
 
         }).catch(error => {
-            console.log(error)
+
             return;
         })
         await axios({
@@ -77,13 +75,14 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             url: 'https://www-portal.dev.alphaxerox.com.br/doctype-service/v1/jobdossiers/' + foundedDossier,
             headers: header
         }).then(response => {
+
             setDossier(response.data)
             setEnableAdd(true)
             setLoading(false)
             documentTypeListID = response.data.documentTypes[0].documentTypeListId
 
         }).catch(error => {
-            console.log(error)
+
             return;
         })
         await axios({
@@ -115,7 +114,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             alert("No name for dossier")
             return;
         }
-        console.log(documents)
+
         if (documents.length === 0) {
             alert("No document for process")
             return;
@@ -125,7 +124,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
                 dossier: inputValue,
                 files: documents
             };
-            console.log(jsonToSend)
+
             await axios({
                 method: 'post',
                 url: 'https://www-portal.dev.alphaxerox.com.br/dip-service/insertPackage',
@@ -140,10 +139,6 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         }
     }
 
-
-    //Console.log para ver o que está sendo enviado ao backend está fora da função pois o react é assincrono então ele rodava antes do JSONtoSend
-    useEffect(() => {
-    }, [JSONtoSend]);
     //verifica se o conteudo de dossier id não foi apagado
     useEffect(() => {
         if (inputValue == '') {

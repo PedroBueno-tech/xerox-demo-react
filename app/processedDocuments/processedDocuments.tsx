@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ViewResult from '../modal/viewResult/viewResult';
 import './processedDocuments.css'
 
 const ProcessedDocuments = ({ dossier }) => {
+
+    let newDossier = dossier?.documentTypes?.sort((a,b) => (a.audit.createdOn < b.audit.createdOn ? -1 : 1));
 
     const [modal, setModal] = useState(false);
     const [infoToShow, setInfoToShow] = useState();
 
     const formatDateIntl = (dateString:any) => {
         const date = new Date(dateString);
-        return new Intl.DateTimeFormat('pt-BR', {
+        const formattedDate = new Intl.DateTimeFormat('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         }).format(date);
+    
+        const formattedTime = new Intl.DateTimeFormat('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true,
+        }).format(date);
+
+        return `${formattedDate} ${formattedTime}`;
     };
 
     const openModal = (data:any) => {
@@ -38,7 +49,7 @@ const ProcessedDocuments = ({ dossier }) => {
             {modal && <ViewResult item={infoToShow} setModal={setModal}/>}
             <div className="processedDocuments">
                 <p>Processed Document List</p>
-                <div className="tableWrapper">
+                <div className="tableWrapper-processed">
                     <table>
                         <thead>
                             <tr>
@@ -51,7 +62,7 @@ const ProcessedDocuments = ({ dossier }) => {
                         </thead>
                         <tbody>
                             {dossier != null &&
-                                dossier?.documentTypes?.map((item: any) => (
+                                newDossier?.map((item: any) => (
 
                                     <tr key={item.id}>
                                         <td className="dossierId">{item.dossier}</td>
@@ -65,7 +76,6 @@ const ProcessedDocuments = ({ dossier }) => {
 
                                 ))
                             }
-
                         </tbody>
                     </table>
                 </div>

@@ -9,13 +9,19 @@
     overflow-y: auto;
     margin-bottom: 0;
 }
+.tableWrapper-processed {
+    border: 1px solid rgb(193, 193, 193);
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
 
 .body-forProcessedDocuments thead th {
     margin-top: 0;
     position: sticky;
     top: 0;
-    background-color: rgb(235, 235, 235);
-    border: 1px solid rgb(193, 193, 193);
+    background-color: rgb(0, 0, 0);
+    color: rgb(255,255,255);
     z-index: 1;
     text-align: center;
     font-weight: normal;
@@ -23,7 +29,7 @@
 
 .body-forProcessedDocuments td {
     white-space: normal;
-    border: 1px solid rgb(193, 193, 193);
+    border: 1px solid rgb(0, 0, 0);
 }
 
 .processedDocuments {

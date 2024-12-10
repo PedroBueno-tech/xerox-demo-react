@@ -9,6 +9,9 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
 
   const [fileName, setFileName] = useState("No file chosen");
 
+  type FileEntry = { name: string; value: string };
+  const [tempFiles, setTempFiles] = useState<FileEntry[]>([]);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setFileName(file ? file.name : "No file chosen");
@@ -27,40 +30,51 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
       return;
     }
 
-    const file = input.files[0]; // O primeiro arquivo selecionado
-    setInputFileName(file.name); // Armazena o nome do arquivo
-    console.log(file.name);
+    Array.from(input.files).forEach((file) => {
+      const reader = new FileReader();
 
-    const reader = new FileReader();
+      reader.onload = () => {
+        const base64WithPrefix = reader.result as string;
+        const base64WithoutPrefix = base64WithPrefix.replace(/^data:.*;base64,/, ''); // Remove o prefixo
 
-    reader.onload = () => {
-      const base64WithPrefix = reader.result as string;
-      const base64WithoutPrefix = base64WithPrefix.replace(/^data:.*;base64,/, ''); // Remove o prefixo
-      setBase64String(base64WithoutPrefix); // Armazena a string Base64
-    };
+        // Atualiza o estado tempFiles de forma imutável
+        setTempFiles(prevFiles => [...prevFiles, { name: file.name, value: base64WithoutPrefix }]);
+      };
 
-    reader.onerror = (error) => {
-      console.error('Error reading the file:', error);
-    };
+      reader.onerror = (error) => {
+        console.error('Error reading the file:', error);
+      };
 
-    reader.readAsDataURL(file); // Inicia a leitura do arquivo como Base64
-    event.target.value = '';
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleSend = () => {
+    if (tempFiles.length === 0) {
+      console.error('No file selected or file content is invalid');
+      return;
+    }
+
+    tempFiles.forEach(docs => {
+      if (!docs.name || !docs.value) {
+        console.error('Invalid document entry:', docs);
+        return; // Pule este documento inválido
+      }
+
+      try {
+        addDocuments(docs.name, docs.value);
+      } catch (error) {
+        console.error(`Failed to add document ${docs.name}:`, error);
+      }
+    });
+
+    setModal(false);
   };
 
   const handleClose = () => {
     setModal(false);
   };
-
-  const handleSend = () => {
-    if (!inputFileName || !base64String) {
-      console.error('No file selected or file content is invalid');
-      return;
-    }
-    console.log(inputFileName)
-    console.log(base64String)
-    addDocuments(inputFileName, base64String);
-    setModal(false);
-  };
+  
 
   return (
     <div className="modal-overlay">
@@ -77,6 +91,7 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
             type="file"
             style={{ display: "none" }}
             onChange={onFileSelectedChange}
+            multiple
           />
           <span style={{ marginLeft: "10px" }}>{fileName}</span>
         </div>

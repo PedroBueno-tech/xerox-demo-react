@@ -5,10 +5,30 @@ html, body {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
  }
+div{
+  margin: 0 !important;
+}
 
+p{
+  margin:0 !important; 
+}
 
 button{
-  border: 1px solid rgb(193, 193,193);
+  border: 1px solid rgb(255, 255, 255);
+  background-color: #D92231;
+  height: 38px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 0.75rem;
+  color: white
+}
+
+button:hover{
+  background-color: #801820;
+}
+
+button:disabled{
+  background-color: #d66770;
 }
 
 .bodyDiv{

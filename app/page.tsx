@@ -51,7 +51,7 @@ export default function Home() {
         setAccessToken(response.data.accessToken); // Armazenar o accessToken após o login
         setLoading(false);
         setError(null);
-        console.log(accessToken)
+        console.log(response)
       })
       .catch(error => {
         setError('Erro ao fazer login. Tente novamente.');

@@ -18,7 +18,7 @@ export default function Info() {
       // Fecha automaticamente após 3 segundos
       setTimeout(() => {
         setIsModalOpen(false);
-      }, 3000);
+      }, 50000);
     };
   
     // Restaura a função original ao desmontar o componente
@@ -26,13 +26,26 @@ export default function Info() {
       window.alert = originalAlert;
     };
   }, []);
+  function preClose () {
+    setIsModalOpen(false)
+  }
 
 return (
   <>
     {isModalOpen && (
       <div className='modal-overlay'>
         <div className="modal-content">
-          <p>{modalMessage}</p>
+          <div style={{display:"flex", justifyContent: "space-between"}}>
+            <div>
+              <p>{modalMessage}</p>
+            </div>
+            <div>
+              <button className='Button' onClick={() => preClose()}> Close </button>
+            </div>
+          </div>
+          
+          
+          
         </div>
       </div>
     )}
