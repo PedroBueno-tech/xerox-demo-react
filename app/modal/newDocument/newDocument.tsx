@@ -13,8 +13,8 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
   const [tempFiles, setTempFiles] = useState<FileEntry[]>([]);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFileName(file ? file.name : "No file chosen");
+    const file = event.target.files;
+    setFileName(file ? file.length + " files selected" : "No file chosen");
   };
 
   const onFileSelectedChange = (event) => {

@@ -54,7 +54,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             console.log(response)
             dossierList = response.data._embedded.JobDossiers;
             dossierList.forEach((item: any) => {
-                if (item.dossier == inputValue) {
+                if (item.dossier.toUpperCase() == inputValue.toUpperCase()) {
                     foundedDossier = item.id;
                 }
             });

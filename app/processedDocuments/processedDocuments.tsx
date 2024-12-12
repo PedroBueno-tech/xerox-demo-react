@@ -4,7 +4,7 @@ import './processedDocuments.css'
 
 const ProcessedDocuments = ({ dossier }) => {
 
-    let newDossier = dossier?.documentTypes?.sort((a,b) => (a.audit.createdOn < b.audit.createdOn ? -1 : 1));
+    let newDossier = dossier?.documentTypes?.sort((a,b) => (a.audit.createdOn < b.audit.createdOn ? 1 : -1));
 
     const [modal, setModal] = useState(false);
     const [infoToShow, setInfoToShow] = useState();
@@ -66,7 +66,7 @@ const ProcessedDocuments = ({ dossier }) => {
 
                                     <tr key={item.id}>
                                         <td className="dossierId">{item.dossier}</td>
-                                        <td className="documentType">{item.code}</td>
+                                        <td className="documentType">{item.name}</td>
                                         <td className="status">{itemStatus(item)}</td>
                                         <td className="dateAndTime">{formatDateIntl(item.audit.createdOn)}</td>
                                         <td className="result">
