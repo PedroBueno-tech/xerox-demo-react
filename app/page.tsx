@@ -9,6 +9,21 @@ import Info from "./modal/info/info";
 
 export default function Home() {
 
+  //Eureka chamado ao iniciar
+  useEffect(() => {
+    const registerService = async () => {
+      try {
+        const response = await fetch('/api/eureka');
+        const data = await response.json();
+        console.log(data.message);
+      } catch (error) {
+        console.error('Failed to register service in Eureka:', error);
+      }
+    };
+
+    registerService();
+  }, []);
+
   //Login area
   const [accessToken, setAccessToken] = useState(null);
   const [error, setError] = useState<string | null>(null);
