@@ -59,7 +59,6 @@ export default function DossierTimeline({
         } else if (doctypeList.status == "ERROR" || doctypeList.status === "IDLE") {
           setProcessing("NOK");
           setFinish("NOK");
-          return;
         } else if (doctypeList.flag === false) {
           docStatuses = false;
           setProcessing("LOD");
