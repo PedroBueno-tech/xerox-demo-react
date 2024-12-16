@@ -18,7 +18,7 @@ export default function Info() {
       // Fecha automaticamente após 3 segundos
       setTimeout(() => {
         setIsModalOpen(false);
-      }, 50000);
+      }, 10000);
     };
   
     // Restaura a função original ao desmontar o componente
@@ -33,7 +33,7 @@ export default function Info() {
 return (
   <>
     {isModalOpen && (
-      <div className='modal-overlay'>
+      <div className='modal-overlay-info'>
         <div className="modal-content">
           <div style={{display:"flex", justifyContent: "space-between"}}>
             <div>

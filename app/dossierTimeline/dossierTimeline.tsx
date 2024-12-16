@@ -24,25 +24,39 @@ export default function DossierTimeline({
     let code = "";
     let status = "";
     const updatedDocs: { flag: boolean; code: string; status: string }[] = [];
-    for (let dossierDoctype of dossier?.documentTypes || []) {
-      if (dossierDoctype.code === null || dossierDoctype === "other") {
-      } else if (!updatedDocs.some((e) => e.code === dossierDoctype.code)) {
-        code = dossierDoctype.code;
-        updatedDocs.push({ code, flag, status });
-        console.log(updatedDocs);
-      }
-    }
 
-    for (let dossierDoctype of dossier?.documentTypes || []) {
-      for (let doctypeList of updatedDocs || []) {
-        if (
-          dossierDoctype.code === doctypeList.code &&
-          doctypeList.code !== "other"
-        ) {
-          doctypeList.flag = true;
-          doctypeList.status = dossierDoctype.status;
-        }
+    console.log(dossier?.documentTypes);
+
+    // Iteração do dossier.documentTypes de baixo para cima
+    for (let i = (dossier?.documentTypes.length || 0) - 1; i >= 0; i--) {
+      const dossierDoctype = dossier?.documentTypes[i];
+
+      if (dossierDoctype.code === null || dossierDoctype.code === "other") {
+        continue;  // Ignora documentos com código null ou "other"
       }
+
+      // Verifica se o código já existe no updatedDocs
+      const existingIndex = updatedDocs.findIndex((e) => e.code === dossierDoctype.code);
+
+      if (existingIndex === -1) {
+        // Se não existe, adiciona um novo item
+        code = dossierDoctype.code;
+        flag = dossierDoctype.status === "FINISHED";  // Se status é "FINISHED", flag é true
+        console.log(dossierDoctype.status);
+        updatedDocs.push({ code, flag, status: dossierDoctype.status });
+      } else {
+        // Se o código já existe, atualiza o item no índice encontrado
+        if (dossierDoctype.status === "ERROR" || dossierDoctype.status === "IDLE") {
+          flag = false;  // Se o status é "ERROR" ou "IDLE", flag é false
+        } else {
+          flag = true;  // Caso contrário, flag é true
+        }
+        console.log(dossierDoctype.status);
+        updatedDocs[existingIndex].status = dossierDoctype.status;
+        updatedDocs[existingIndex].flag = flag; // Atualiza o flag para o valor correto
+      }
+
+      console.log(updatedDocs);
     }
 
     if (dossier?.documentTypes == null) {
@@ -51,30 +65,32 @@ export default function DossierTimeline({
       setFinish("LOD");
     } else {
       setStart("OK");
-      let docStatuses = false;
+      let docStatuses = true; // Inicializa como true
 
       for (let doctypeList of updatedDocs || []) {
         if (doctypeList.code === "other") {
-
-        } else if (doctypeList.status == "ERROR" || doctypeList.status === "IDLE") {
+          continue; // Ignora o item se for "other"
+        } else if (doctypeList.status === "ERROR" || doctypeList.status === "IDLE") {
+          docStatuses = false;
           setProcessing("NOK");
           setFinish("NOK");
+          break; // Sai do loop se encontrar um erro, evitando chamadas posteriores
         } else if (doctypeList.flag === false) {
           docStatuses = false;
           setProcessing("LOD");
           setFinish("LOD");
-          break;
-        } else {
-          docStatuses = true;
+          break; // Sai do loop assim que encontrar o flag falso
         }
       }
 
+      // Se não houver erro, finalize o processo
       if (docStatuses) {
         setProcessing("OK");
         setFinish("OK");
       }
     }
   }, [dependencies]);
+
 
   function getStyle(type: string, state: string) {
     if (state == "LOD") {

@@ -26,7 +26,7 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
     const input = event.target;
 
     if (!input.files || input.files.length === 0) {
-      console.error('No file selected');
+      alert('No file selected');
       return;
     }
 
@@ -42,7 +42,7 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
       };
 
       reader.onerror = (error) => {
-        console.error('Error reading the file:', error);
+        alert('Error reading the file:' + error);
       };
 
       reader.readAsDataURL(file);
@@ -51,20 +51,20 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
 
   const handleSend = () => {
     if (tempFiles.length === 0) {
-      console.error('No file selected or file content is invalid');
+      alert('No file selected or file content is invalid');
       return;
     }
 
     tempFiles.forEach(docs => {
       if (!docs.name || !docs.value) {
-        console.error('Invalid document entry:', docs);
+        alert('Invalid document entry:' + docs);
         return; // Pule este documento inválido
       }
 
       try {
         addDocuments(docs.name, docs.value);
       } catch (error) {
-        console.error(`Failed to add document ${docs.name}:`, error);
+        alert(`Failed to add document ${docs.name}:` + error);
       }
     });
 

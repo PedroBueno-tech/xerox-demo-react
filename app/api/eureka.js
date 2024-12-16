@@ -27,7 +27,7 @@ export default function handler(req, res) {
     // Inicializa o cliente Eureka no lado do servidor
     client.start((error) => {
         if (error) {
-            console.error('Error starting Eureka client:', error);
+            console.log('Error starting Eureka client:', error);
             return res.status(500).json({ error: 'Failed to start Eureka client' });
         }
         res.status(200).json({ message: 'Eureka client started successfully' });

@@ -39,6 +39,9 @@ const ProcessedDocuments = ({ dossier }) => {
         } else if (data.status == 'IDLE') {
             return 'PROCESSING'
         } else if (data.status == 'ERROR'){
+            if(data.step === 'COMPLEMENTATION_AUTO' || data.step === 'TYPIFY_AUTO' || data.step === 'VALIDATION_AUTO'){
+                return 'PROCESSING'
+            }
             return 'REJECTED'
         }
     }

@@ -17,7 +17,7 @@ export default function Home() {
         const data = await response.json();
         console.log(data.message);
       } catch (error) {
-        console.error('Failed to register service in Eureka:', error);
+        //alert('Failed to register service in Eureka:' + error);
       }
     };
 
