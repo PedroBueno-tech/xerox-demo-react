@@ -25,10 +25,9 @@ export default function DossierTimeline({
     let status = "";
     const updatedDocs: { flag: boolean; code: string; status: string }[] = [];
 
-    console.log(dossier?.documentTypes);
 
     // Iteração do dossier.documentTypes de baixo para cima
-    for (let i = (dossier?.documentTypes.length || 0) - 1; i >= 0; i--) {
+    for (let i = (dossier?.documentTypes?.length || 0) - 1; i >= 0; i--) {
       const dossierDoctype = dossier?.documentTypes[i];
 
       if (dossierDoctype.code === null || dossierDoctype.code === "other") {
@@ -42,7 +41,7 @@ export default function DossierTimeline({
         // Se não existe, adiciona um novo item
         code = dossierDoctype.code;
         flag = dossierDoctype.status === "FINISHED";  // Se status é "FINISHED", flag é true
-        console.log(dossierDoctype.status);
+
         updatedDocs.push({ code, flag, status: dossierDoctype.status });
       } else {
         // Se o código já existe, atualiza o item no índice encontrado
@@ -51,12 +50,11 @@ export default function DossierTimeline({
         } else {
           flag = true;  // Caso contrário, flag é true
         }
-        console.log(dossierDoctype.status);
+
         updatedDocs[existingIndex].status = dossierDoctype.status;
         updatedDocs[existingIndex].flag = flag; // Atualiza o flag para o valor correto
       }
 
-      console.log(updatedDocs);
     }
 
     if (dossier?.documentTypes == null) {

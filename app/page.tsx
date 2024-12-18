@@ -6,23 +6,9 @@ import ProcessedDocuments from "./processedDocuments/processedDocuments";
 import Loading from "./modal/loading/loading"
 import axios from "axios";
 import Info from "./modal/info/info";
+import EurekaPage from "./api/eurekapage";
 
 export default function Home() {
-
-  //Eureka chamado ao iniciar
-  useEffect(() => {
-    const registerService = async () => {
-      try {
-        const response = await fetch('/api/eureka');
-        const data = await response.json();
-        console.log(data.message);
-      } catch (error) {
-        //alert('Failed to register service in Eureka:' + error);
-      }
-    };
-
-    registerService();
-  }, []);
 
   //Login area
   const [accessToken, setAccessToken] = useState(null);
@@ -79,6 +65,7 @@ export default function Home() {
       {loading && <Loading/>}
       <div className='contentContainer'>
         <Info />
+        <EurekaPage message='' />
         <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>
         <DocumentsForProcess header={headers} setLoading={setLoading} setDossier={setDossier} dossier={dossier} loading={setLoading} setDocumentTypes={setDocumentTypes}/>
         <ProcessedDocuments dossier={dossier} />
