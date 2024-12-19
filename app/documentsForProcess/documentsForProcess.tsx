@@ -15,6 +15,8 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
     const [modal, setModal] = useState(false);
     const [selectedRow, setSelectedRow] = useState<number>(0);
 
+    let apiUrl = process.env.NEXT_PUBLIC_API_URL
+
     // Inicializa o estado como um array vazio
     const [documents, setDocuments] = useState<{ key: string, base64: string }[]>([]);
 
@@ -48,7 +50,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         let documentTypeListID: any;
         await axios({
             method: 'get',
-            url: 'https://www-portal.dev.alphaxerox.com.br/doctype-service/v1/jobdossiers?size=500',
+            url: apiUrl + 'doctype-service/v1/jobdossiers?size=500',
             headers: header,
         }).then(response => {
             console.log(response)
@@ -72,7 +74,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         })
         await axios({
             method: 'get',
-            url: 'https://www-portal.dev.alphaxerox.com.br/doctype-service/v1/jobdossiers/' + foundedDossier,
+            url: apiUrl + 'doctype-service/v1/jobdossiers/' + foundedDossier,
             headers: header
         }).then(response => {
 
@@ -87,7 +89,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         })
         await axios({
             method: 'get',
-            url: 'https://www-portal.dev.alphaxerox.com.br/doctype-service/v1/doctypelists/' + documentTypeListID,
+            url: apiUrl + 'doctype-service/v1/doctypelists/' + documentTypeListID,
             headers: header
         }).then(response => {
 
@@ -127,7 +129,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
 
             await axios({
                 method: 'post',
-                url: 'https://www-portal.dev.alphaxerox.com.br/dip-service/insertPackage',
+                url: apiUrl + '/dip-service/insertPackage',
                 headers: header,
                 data: jsonToSend
             }).then(response => {

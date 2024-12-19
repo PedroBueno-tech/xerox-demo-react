@@ -20,9 +20,9 @@ export default function Home() {
     status: ''
   }])
   let loginData = { username: "xcorp", password: "Xerox123" }
-  let apiUrl = 'https://www-portal.dev.alphaxerox.com.br/';
+  let apiUrl = process.env.NEXT_PUBLIC_API_URL;
   let headers = {
-      'x-tenant': 'xerox',
+      'x-tenant': process.env.NEXT_PUBLIC_XTENANT,
       'Authorization': "Bearer " + accessToken
   }
   const updateDocumentType = (codeToUpdate: any, newData: any) => {
