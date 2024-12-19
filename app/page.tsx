@@ -6,7 +6,6 @@ import ProcessedDocuments from "./processedDocuments/processedDocuments";
 import Loading from "./modal/loading/loading"
 import axios from "axios";
 import Info from "./modal/info/info";
-import EurekaPage from "./api/eurekapage";
 
 export default function Home() {
 
@@ -65,7 +64,6 @@ export default function Home() {
       {loading && <Loading/>}
       <div className='contentContainer'>
         <Info />
-        <EurekaPage message='' />
         <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>
         <DocumentsForProcess header={headers} setLoading={setLoading} setDossier={setDossier} dossier={dossier} loading={setLoading} setDocumentTypes={setDocumentTypes}/>
         <ProcessedDocuments dossier={dossier} />
