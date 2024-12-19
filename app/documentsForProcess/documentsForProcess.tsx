@@ -129,7 +129,7 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
 
             await axios({
                 method: 'post',
-                url: apiUrl + '/dip-service/insertPackage',
+                url: apiUrl + 'dip-service/insertPackage',
                 headers: header,
                 data: jsonToSend
             }).then(response => {
