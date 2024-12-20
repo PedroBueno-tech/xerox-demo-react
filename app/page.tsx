@@ -22,9 +22,10 @@ export default function Home() {
   let loginData = { username: "xcorp", password: "Xerox123" }
   let apiUrl = process.env.NEXT_PUBLIC_API_URL;
   let headers = {
-      'x-tenant': process.env.NEXT_PUBLIC_XTENANT,
+      'x-tenant': 'xerox',
       'Authorization': "Bearer " + accessToken
   }
+  const version = process.env.NEXT_PUBLIC_APP_VERSION
   const updateDocumentType = (codeToUpdate: any, newData: any) => {
     setDocumentTypes((prevDocumentTypes: any[]) =>
       prevDocumentTypes.map((doctype) =>
@@ -62,6 +63,7 @@ export default function Home() {
   return (
     <div className='bodyDiv'>
       {loading && <Loading/>}
+      <span>Version: {version}</span>
       <div className='contentContainer'>
         <Info />
         <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>
