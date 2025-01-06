@@ -4,25 +4,26 @@ import DocumentsForProcess from "./documentsForProcess/documentsForProcess";
 import DossierTimeline from "./dossierTimeline/dossierTimeline";
 import ProcessedDocuments from "./processedDocuments/processedDocuments";
 import Loading from "./modal/loading/loading"
-import axios from "axios";
 import Info from "./modal/info/info";
+import { PrimeReactProvider } from 'primereact/api'; 
+import Login from "./modal/login/login";
 
 export default function Home() {
 
   //Login area
   const [accessToken, setAccessToken] = useState(null);
-  const [error, setError] = useState<string | null>(null);
+  const [tenant, setTenant] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dossier, setDossier] = useState(null);
+  const [logged, setLogged] = useState(false);
   const [documentTypes, setDocumentTypes] = useState([{
     flag: false,
     code: '',
     status: ''
-  }])
-  let loginData = { username: "xcorp", password: "Xerox123" }
-  let apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  }])  
+
   let headers = {
-      'x-tenant': 'xerox',
+      'x-tenant': tenant,
       'Authorization': "Bearer " + accessToken
   }
   const version = process.env.NEXT_PUBLIC_APP_VERSION
@@ -35,41 +36,37 @@ export default function Home() {
       )
     );
   };
-  useEffect(() => { login();
+  useEffect(() => {
+    isLogged();
     setDossier(null);
-      }, []);
+    }, []);
 
-  const login = () => {
-    setLoading(true);
-    // Enviar a requisição de login com Axios
-    axios({
-      method: 'post',
-      url: apiUrl + 'auth-service/login',
-      headers: headers,
-      data: loginData, // Usar "data" para enviar o corpo da requisição
-    })
-      .then(response => {
-        setAccessToken(response.data.accessToken); // Armazenar o accessToken após o login
-        setLoading(false);
-        setError(null);
-        console.log(response)
-      })
-      .catch(error => {
-        setError('Erro ao fazer login. Tente novamente.');
-        setLoading(false);
-      });
+  const isLogged= () => {
+    let stored = sessionStorage.getItem("profile_data")
+    if(stored){
+      let log = JSON.parse(stored)
+      setLogged(true);
+      setTenant(log.organization)
+      setAccessToken(log.accessToken)
+    } else {
+      setLogged(false);
+    }
   }
 
   return (
-    <div className='bodyDiv'>
-      {loading && <Loading/>}
-      <span>Version: {version}</span>
-      <div className='contentContainer'>
-        <Info />
-        <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>
-        <DocumentsForProcess header={headers} setLoading={setLoading} setDossier={setDossier} dossier={dossier} loading={setLoading} setDocumentTypes={setDocumentTypes}/>
-        <ProcessedDocuments dossier={dossier} />
+    <PrimeReactProvider>
+        <div className='bodyDiv'>
+        {loading && <Loading/>}
+        {!logged && <Login headers={headers} loading={setLoading} accessToken={setAccessToken} logged={setLogged} tenant={setTenant}/>}
+        <span>Version: {version}</span>
+        <div className='contentContainer'>
+          <Info />
+          <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>
+          <DocumentsForProcess header={headers} setLoading={setLoading} setDossier={setDossier} dossier={dossier} loading={setLoading} setDocumentTypes={setDocumentTypes}/>
+          <ProcessedDocuments dossier={dossier} />
+        </div>
       </div>
-    </div>
+    </PrimeReactProvider>
+    
   );
 }

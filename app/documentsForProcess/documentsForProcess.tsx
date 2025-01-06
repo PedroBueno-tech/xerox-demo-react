@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import NewDocument from '../modal/newDocument/newDocument'
 import './documentsForProcess.css';
 import axios from 'axios';
+import { Button } from 'primereact/button';
 
 const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading, setDocumentTypes }) => {
 
