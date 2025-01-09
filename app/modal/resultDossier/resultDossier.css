@@ -1,0 +1,53 @@
+.p-tabview	{
+    display: flex;
+    flex-direction: column;
+}
+.p-tabview	ul{
+    list-style-type: none;
+}
+
+.p-tabview-nav	{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.p-tabview-selected	{
+    background-color: darkgray;
+}
+.p-tabview-panels	{
+    border: 1px black solid;
+
+}
+.p-tabview-panel {
+
+}
+.p-tabview-nav-container{    
+    height: auto;
+    display: flex;
+    align-items: center;
+}
+.p-unselectable-text{
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+}
+
+.resultDossier-content{
+    background-color: rgb(235, 235, 235);
+    padding: 20px;
+    border-radius: 0px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    width: fit-content;
+    max-height: 80vh;
+    overflow-y: scroll;
+    position: relative;
+}

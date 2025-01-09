@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from 'react';
 import NewDocument from '../modal/newDocument/newDocument'
+import ResultDossier from '../modal/resultDossier/resultDossier';
 import './documentsForProcess.css';
 import axios from 'axios';
-import { Button } from 'primereact/button';
 
 const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading, setDocumentTypes }) => {
 
@@ -13,8 +13,11 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
     const [enableSubmit, setEnableSubmit] = useState(false)
     const [enableDossierID, setEnableDossierID] = useState(true)
     const [enableSearch, setEnableSearch] = useState(true)
-    const [modal, setModal] = useState(false);
+    const [enableResultDossier, setEnableResultDossier] = useState(false)
+    const [addDocumentModal, setAddDocumentModal] = useState(false);
+    const [dossierResultModal, setDossierResultModal] = useState(false);
     const [selectedRow, setSelectedRow] = useState<number>(0);
+    const [resultDossier, setResultDossier] = useState(null)
 
     let apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -54,7 +57,6 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             url: apiUrl + 'doctype-service/v1/jobdossiers?size=500',
             headers: header,
         }).then(response => {
-            console.log(response)
             dossierList = response.data._embedded.JobDossiers;
             dossierList.forEach((item: any) => {
                 if (item.dossier.toUpperCase() == inputValue.toUpperCase()) {
@@ -70,7 +72,6 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             }
 
         }).catch(error => {
-
             return;
         })
         await axios({
@@ -81,14 +82,15 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
 
             setDossier(response.data)
             setEnableAdd(true)
-            setLoading(false)
             documentTypeListID = response.data.documentTypes[0].documentTypeListId
 
         }).catch(error => {
 
             return;
         })
-        await axios({
+
+        //Antigo código do document type list mantenho ele ai pra caso de uso futuro
+        /*await axios({
             method: 'get',
             url: apiUrl + 'doctype-service/v1/doctypelists/' + documentTypeListID,
             headers: header
@@ -107,6 +109,30 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
             setDocumentTypes(updatedDocs);
         }).catch(error => {
 
+        }) */
+        let toSearch = {
+            "action" : "READ",
+            "target" : inputValue + "_result.json"
+        }
+        await axios ({
+            method: 'post',
+            url: apiUrl + 'api-service/repository/v1/0040',
+            headers: header,
+            data: toSearch
+        }).then(response => {
+            
+            if(response?.data?.payload?.content){
+                let convert = JSON.parse(response.data.payload.content);
+                setResultDossier(convert)
+                console.log(convert)
+            } else {
+                setResultDossier(null)
+                console.log("No result found")
+            }
+            setLoading(false)
+        }).catch(error => {
+            console.log(error)
+            setLoading(false)
         })
 
     }
@@ -164,14 +190,27 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
         }
     }, [documents])
 
-    function openModal() {
-        setModal(true)
+    useEffect(() => {
+        if(resultDossier != null){
+            setEnableResultDossier(true)
+        } else [
+            setEnableResultDossier(false)
+        ]
+    }, [resultDossier])
+
+    function openAddDocumentModal() {
+        setAddDocumentModal(true)
+    }
+
+    function openDossierResultModal() {
+        setDossierResultModal(true)
     }
 
     return (
 
         <div className="bodyForDocProcess">
-            {modal && <NewDocument setModal={setModal} addDocuments={addDocument} loading={loading} />}
+            {dossierResultModal &&  <ResultDossier setModal={setDossierResultModal} resultDossier={resultDossier}/>}
+            {addDocumentModal && <NewDocument setModal={setAddDocumentModal} addDocuments={addDocument} loading={loading} />}
             <div className="documentsForProcess">
                 <p>Documents for process</p>
                 <div className="tableWrapper">
@@ -202,12 +241,12 @@ const DocumentsForProcess = ({ header, setLoading, setDossier, dossier, loading,
                     Dossier Identification: <input type="text" value={inputValue} onChange={handleInputChange} disabled={!enableDossierID} /> <button onClick={searchDossier} disabled={!enableSearch}>Search</button>
                 </div>
                 <div className="docButtons">
-                    <button disabled={!enableAdd} onClick={() => openModal()}>Add Document</button>
+                    <button disabled={!enableAdd} onClick={() => openAddDocumentModal()}>Add Document</button>
                     <button disabled={!enableRemove} onClick={() => removeDocument(selectedRow)}>Remove Document</button>
                     <button disabled={!enableSubmit} onClick={onSubmit}>Submit</button>
+                    <button disabled={!enableResultDossier} onClick={()=> openDossierResultModal()}>Result Dossier</button>
                 </div>
             </div>
-
         </div>
     );
 }

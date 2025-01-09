@@ -90,7 +90,7 @@ const Login = ({headers, loading, accessToken, logged, tenant}) => {
     return (
         <div className="modal-overlay">
             <div className="modal-login">
-                <h2>Acess your account</h2>
+                <h2>Access your account</h2>
                 <div className="loginContent">
                     <p>To access the platform, access your data</p> 
                     <label className="loginLabel">Organization/username</label>
