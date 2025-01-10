@@ -1,25 +1,61 @@
+import { Dropdown } from "primereact/dropdown";
+import "./flow.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { FlowInterface } from "../interfaces/FlowInterface";
 
-import { Dropdown } from "primereact/dropdown"
-import "./flow.css"
-import { useState } from "react";
+const Flow = ({ header, apiUrl, logged, selectedFlow}) => {
+  const [flow, setFlow] = useState(null);
+  const [flowList, setFlowList] = useState<FlowInterface[]>([]);
+  const [flowsNames, setFlowsNames] = useState<String[]>([]);
 
+  let onNothing = ["No flow found"];
 
-const Flow = () => {
+  useEffect(() => {
+    if (logged) {
+      getFlows();
+    }
+  }, [logged]);
 
-    const [flow, setFlow] = useState(null); 
-    const flowList = [
-        "flow1","flo2","flo4"
-    ]
+  useEffect(() => {
+    setFlowNameList();
+  }, [flowList]);
 
-    return (
-        <>
-            <div className="flowContainer">
-                <p>Select Flow ID</p>
-                <Dropdown value={flow} options={flowList} onChange={(e) => setFlow(e.value)} placeholder="Select one flow"/>
-            </div>
-        </>
-    )
+  useEffect(() => {
+    selectedFlow(flowList.find(obj => obj.name === flow));
+  }, [flow])
 
-}
+  function setFlowNameList() {
+    const names = flowList.map((flow) => flow?.name ?? "");
+    setFlowsNames(names);
+  }
 
-export default Flow
+  async function getFlows() {
+    await axios({
+      method: "get",
+      url: apiUrl + "portal-service/flows",
+      headers: header,
+    }).then((response) => {
+      setFlowList(response.data);
+    });
+  }
+
+  return (
+    <>
+      <div className="flowContainer">
+        <p>Select Flow ID</p>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Dropdown
+            value={flow}
+            options={flowsNames.length > 0 ? flowsNames : onNothing}
+            onChange={(e) => setFlow(e.value)}
+            placeholder="Select one flow"
+          />
+          <button onClick={() => getFlows()}> update </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Flow;

@@ -3,7 +3,7 @@ import './newDocuments.css';
 
 
 
-const NewDocument = ({ setModal, addDocuments, loading }) => {
+const NewDocument = ({ setModal, addDocuments, loading, selectedFlow, doctype}) => {
   const [base64String, setBase64String] = useState<string | null>(null);
   const [inputFileName, setInputFileName] = useState<string>('');
 
@@ -56,16 +56,31 @@ const NewDocument = ({ setModal, addDocuments, loading }) => {
     }
 
     tempFiles.forEach(docs => {
+      
       if (!docs.name || !docs.value) {
         alert('Invalid document entry:' + docs);
         return; // Pule este documento inválido
       }
-
-      try {
-        addDocuments(docs.name, docs.value);
+      if(selectedFlow == undefined){
+        alert('No flow selected')
+        return;
+      }
+      try{
+        if(selectedFlow.id == 15){
+          console.log(doctype)
+          addDocuments(docs.name, docs.value, doctype);
+        } else {
+          addDocuments(docs.name, docs.value);
+        }
       } catch (error) {
         alert(`Failed to add document ${docs.name}:` + error);
       }
+      
+
+        
+
+        
+    
     });
 
     setModal(false);

@@ -14,15 +14,6 @@ const Login = ({headers, loading, accessToken, logged, tenant}) => {
     const [passwordError, setPasswordError] = useState('')
     
     let apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    
-
-
-    const handleUsernameChange = (event: any) => {
-        setUsername(event.target.value);
-    };
-    const handlePasswordChange = (event: any) => {
-        setPassword(event.target.value);
-    };
 
     const changeVisibility = () =>{
         if(passwordVisibility == "password"){
@@ -94,11 +85,11 @@ const Login = ({headers, loading, accessToken, logged, tenant}) => {
                 <div className="loginContent">
                     <p>To access the platform, access your data</p> 
                     <label className="loginLabel">Organization/username</label>
-                    <input type='text' className="inputLogin" onChange={handleUsernameChange}></input>
+                    <input type='text' className="inputLogin" onChange={(e) => setUsername(e.target.value)}></input>
                     <p className="errorAlert">{userError}</p>
                     <label className="loginLabel">Password</label>
                     <div className="divPassword">
-                        <input type={passwordVisibility} className="inputLoginPassword" onChange={handlePasswordChange}></input>
+                        <input type={passwordVisibility} className="inputLoginPassword" onChange={(e) => setPassword(e.target.value)}></input>
                         <button onClick={changeVisibility} className="changeVisible"><span className={iconVisibility}></span></button>
                     </div>
                     <p className="errorAlert">{passwordError}</p>
