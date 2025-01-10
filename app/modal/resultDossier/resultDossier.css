@@ -1,9 +1,7 @@
 .p-tabview	{
     display: flex;
     flex-direction: column;
-}
-.p-tabview	ul{
-    list-style-type: none;
+    
 }
 
 .p-tabview-nav	{
@@ -15,15 +13,26 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+.p-tabview ul{
+    list-style-type: none;
+}
 .p-tabview-selected	{
-    background-color: darkgray;
+    background-color: rgb(193, 193, 193);
 }
 .p-tabview-panels	{
-    border: 1px black solid;
+    border: 1px rgb(193, 193,193) solid;
 
 }
 .p-tabview-panel {
-
+    padding: 5px;
+}
+.p-tabview-panel div{
+    margin-top: 5px !important;
+    margin-left: 10px !important;
+}
+.p-tabview-panel ul{
+    list-style-type: none;
+    border: 1px rgb(193, 193, 193) solid;
 }
 .p-tabview-nav-container{    
     height: auto;
@@ -35,10 +44,7 @@
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 5px;
-    border-left: 1px black solid;
-    border-right: 1px black solid;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
+    border: 1px rgb(193, 193,193) solid;
 }
 
 .resultDossier-content{
@@ -46,8 +52,35 @@
     padding: 20px;
     border-radius: 0px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-    width: fit-content;
-    max-height: 80vh;
+    width: 80vw;
+    height: 80vh;
+    min-height: 80vh;
     overflow-y: scroll;
     position: relative;
+}
+
+
+/*Image area*/
+.base64-img{
+    
+    border: 1px solid rgb(193, 193, 193);
+    padding: 5px;
+}
+.p-image-preview-indicator{
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.p-image-mask{
+    overflow: visible;
+    overflow-y: scroll;
+    background-color: rgba(51, 51, 51, 0.5);
+    
+}
+.p-image-toolbar{
+    position:fixed;
+    top: 0;
+    right: 0;
 }

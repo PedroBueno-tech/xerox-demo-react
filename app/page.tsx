@@ -7,6 +7,7 @@ import Loading from "./modal/loading/loading"
 import Info from "./modal/info/info";
 import { PrimeReactProvider } from 'primereact/api'; 
 import Login from "./modal/login/login";
+import Flow from "./flow/flow";
 
 export default function Home() {
 
@@ -59,6 +60,9 @@ export default function Home() {
         {loading && <Loading/>}
         {!logged && <Login headers={headers} loading={setLoading} accessToken={setAccessToken} logged={setLogged} tenant={setTenant}/>}
         <span>Version: {version}</span>
+        <div className='contentContainer'>
+          <Flow/>
+        </div>
         <div className='contentContainer'>
           <Info />
           <DossierTimeline dossier={dossier} documentTypes={documentTypes} setLoading={setLoading} updateDocumentTypes={updateDocumentType}/>

@@ -48,7 +48,7 @@ input:focus{
   display: flex;
   background-color: rgb(#EBEBEB);
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   flex-direction: column;
 }
 

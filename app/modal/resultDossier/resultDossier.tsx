@@ -1,5 +1,6 @@
 import { TabPanel, TabView } from "primereact/tabview";
 import "./resultDossier.css";
+import { Image } from "primereact/image";
 
 const ResultDossier = ({ setModal, resultDossier }) => {
   const headerType = (object) => {
@@ -40,11 +41,15 @@ const ResultDossier = ({ setModal, resultDossier }) => {
       // Verifica se a string é Base64 e tenta renderizar como imagem
       if (isBase64Image(data)) {
         return (
-          <img
-            src={`data:image/png;base64,${data}`}
-            alt="Base64 content"
-            style={{ maxWidth: "100px", maxHeight: "100px" }}
-          />
+          <>
+            <br/>
+            <Image
+              src={`data:image/png;base64,${data}`}
+              alt="Base64 content"
+              className="" height="100px" preview  
+            />
+          </>
+          
         );
       }
       return <span>{data}</span>;
@@ -72,7 +77,7 @@ const ResultDossier = ({ setModal, resultDossier }) => {
     return (
       <div>
         {Object.entries(data).map(([key, value]) => (
-          <div key={key} style={{ marginLeft: "1rem" }}>
+          <div key={key}>
             <strong>{key}:</strong> {renderFields(value)}
           </div>
         ))}
@@ -100,7 +105,7 @@ const ResultDossier = ({ setModal, resultDossier }) => {
               )}
             >
               <div>
-                <h3>Detalhes do Objeto</h3>
+                <h3>Processed Document</h3>
                 {renderFields(object)}
               </div>
             </TabPanel>
