@@ -66,11 +66,24 @@
     background-color: #d0d0d0; /* Fundo escuro permanente para a linha clicada */
 }
 
+.docButtons{
+    width: 50%;
+}
+.searchDiv{
+    width: 50%;
+}
+
 @media (min-width: 1336px) {
     .options {
         display: flex;
         flex-direction: row;
 
+    }
+    .docButtons{
+        width: 50%;
+    }
+    .searchDiv{
+        width: 50%;
     }
 }
 
@@ -79,5 +92,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    .docButtons{
+        width: 100%;
+    }
+    .searchDiv{
+        width: 100%;
     }
 }

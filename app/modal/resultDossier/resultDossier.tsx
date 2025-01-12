@@ -1,13 +1,15 @@
 import { TabPanel, TabView } from "primereact/tabview";
 import "./resultDossier.css";
 import { Image } from "primereact/image";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const ResultDossier = ({ setModal, resultDossier }) => {
   const headerType = (object) => {
     if (object.action) {
-      return object.action;
+      return object.action.toUpperCase();
     } else if (object.type) {
-      return object.type;
+      return object.type.toUpperCase();
     }
   };
 
@@ -42,14 +44,15 @@ const ResultDossier = ({ setModal, resultDossier }) => {
       if (isBase64Image(data)) {
         return (
           <>
-            <br/>
+            <br />
             <Image
               src={`data:image/png;base64,${data}`}
               alt="Base64 content"
-              className="" height="100px" preview  
+              className=""
+              height="100px"
+              preview
             />
           </>
-          
         );
       }
       return <span>{data}</span>;
@@ -60,7 +63,36 @@ const ResultDossier = ({ setModal, resultDossier }) => {
       return <span>{data.toString()}</span>;
     }
 
+    if (typeof data === "object" && data?.action === "LLMPROMPT") {
+      console.log(data.payload.field);
+      console.log(data.payload);
+      return (
+        <>
+          <div>
+            {Object.entries(data)
+              .filter(([key]) => key !== "fields" && key !== "payload")
+              .map(([key, value]) => (
+                <div key={key}>
+                  <strong>{key}:</strong> {renderFields(value)}
+                </div>
+              ))}
+          </div>
+          <DataTable value={data.payload.fields}>
+            <Column field="name" header="name"></Column>
+            <Column field="stdName" header="stdName"></Column>
+            <Column field="score" header="score"></Column>
+            <Column field="value" header="value"></Column>
+          </DataTable>
+        </>
+      );
+    }
+
     if (Array.isArray(data)) {
+      // Verifica se o array está vazio
+      if (data.length === 0) {
+        return <span>No item found </span>; // Ou qualquer mensagem apropriada
+      }
+
       // Renderiza arrays como uma lista de itens
       return (
         <ul>
@@ -85,11 +117,23 @@ const ResultDossier = ({ setModal, resultDossier }) => {
     );
   };
 
+  const orderedResultDossier = () => {
+    return [...resultDossier].sort((a, b) => {
+      const aKey = a.action || a.type || "";
+      const bKey = b.action || b.type || "";
+      return aKey.localeCompare(bKey);
+    });
+  };
+
+  const ordered = orderedResultDossier();
+
   return (
     <div className="modal-overlay">
       <div className="resultDossier-content">
+      <button onClick={() => setModal(false)}>Download Json</button>
+      <button onClick={() => setModal(false)}>Close</button>
         <TabView>
-          {resultDossier.map((object, index) => (
+          {ordered.map((object, index) => (
             <TabPanel
               key={index}
               headerTemplate={(options) => (
@@ -111,7 +155,7 @@ const ResultDossier = ({ setModal, resultDossier }) => {
             </TabPanel>
           ))}
         </TabView>
-        <button onClick={() => setModal(false)}>Close</button>
+        
       </div>
     </div>
   );

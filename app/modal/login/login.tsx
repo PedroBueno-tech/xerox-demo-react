@@ -29,7 +29,7 @@ const Login = ({headers, loading, accessToken, logged, tenant}) => {
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
           if (event.key === "Enter") { // Altere para a tecla desejada
-            login();
+            login;
           }
         };
     
@@ -51,6 +51,7 @@ const Login = ({headers, loading, accessToken, logged, tenant}) => {
         }
         if(password == '' || password == null){
             setPasswordError("Password can't be empty")
+            return;
         }
 
         let loginData = { username: splited[1], password: password }
