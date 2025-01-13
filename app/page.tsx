@@ -56,7 +56,7 @@ export default function Home() {
       setLogged(false);
     }
   };
-
+  
   return (
     <PrimeReactProvider>
       <div className="bodyDiv">

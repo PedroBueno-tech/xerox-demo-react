@@ -28,7 +28,6 @@ const ProcessedDocuments = ({ dossier }) => {
     };
 
     const openModal = (data:any) => {
-        console.log(data)
         setModal(true)
         setInfoToShow(data)
     }

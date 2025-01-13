@@ -65,9 +65,11 @@ const ResultDossier = ({ setModal, resultDossier }) => {
     }
 
     if (typeof data === "object" && data?.action === "LLMPROMPT") {
+      console.log(data)
       return (
         <>
           <div>
+            
             {Object.entries(data)
               .filter(([key]) => key !== "fields" && key !== "payload")
               .map(([key, value]) => (

@@ -37,6 +37,9 @@ const Flow = ({ header, apiUrl, logged, selectedFlow}) => {
       headers: header,
     }).then((response) => {
       setFlowList(response.data);
+    }).catch((error) => {
+      sessionStorage.removeItem("profile_data")
+      window.location.reload()
     });
   }
 
