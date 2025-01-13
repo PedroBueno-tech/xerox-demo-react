@@ -3,6 +3,7 @@ import "./resultDossier.css";
 import { Image } from "primereact/image";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import DownloadButton from "./downloadButton/downloadButton";
 
 const ResultDossier = ({ setModal, resultDossier }) => {
   const headerType = (object) => {
@@ -64,8 +65,6 @@ const ResultDossier = ({ setModal, resultDossier }) => {
     }
 
     if (typeof data === "object" && data?.action === "LLMPROMPT") {
-      console.log(data.payload.field);
-      console.log(data.payload);
       return (
         <>
           <div>
@@ -130,8 +129,10 @@ const ResultDossier = ({ setModal, resultDossier }) => {
   return (
     <div className="modal-overlay">
       <div className="resultDossier-content">
-      <button onClick={() => setModal(false)}>Download Json</button>
-      <button onClick={() => setModal(false)}>Close</button>
+        <div className="resultDossier-ButtonDiv">
+          <DownloadButton jsonData={resultDossier} fileName={"ResultDossier"} />
+          <button onClick={() => setModal(false)}>Close</button>
+        </div>
         <TabView>
           {ordered.map((object, index) => (
             <TabPanel
@@ -155,7 +156,6 @@ const ResultDossier = ({ setModal, resultDossier }) => {
             </TabPanel>
           ))}
         </TabView>
-        
       </div>
     </div>
   );

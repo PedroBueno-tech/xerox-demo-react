@@ -111,3 +111,8 @@
     text-align: center;
     
 }
+
+.resultDossier-ButtonDiv{
+    display: flex;
+    justify-content: space-between;
+}

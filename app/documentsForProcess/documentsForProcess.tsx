@@ -49,7 +49,7 @@ const DocumentsForProcess = ({
             base64
             
         }
-        console.log(toSave)
+
     } else if(type == 'selfie'){
         toSave = {
             internalIdType: 'Selfie',
@@ -58,7 +58,6 @@ const DocumentsForProcess = ({
             key, 
             base64
         }
-        console.log(toSave)
     }
     
     setBrbDocuments((prevDocs) => [...prevDocs, toSave]);
@@ -251,7 +250,7 @@ const DocumentsForProcess = ({
   useEffect(() => {
     if (resultDossier != null) {
       setEnableResultDossier(true);
-    } else [setEnableResultDossier(false)];
+    } else {setEnableResultDossier(false)};
   }, [resultDossier]);
 
   function openAddDocumentModal() {
