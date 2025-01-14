@@ -7,6 +7,7 @@ import { FlowInterface } from "../interfaces/FlowInterface";
 const Flow = ({ header, apiUrl, logged, selectedFlow}) => {
   const [flow, setFlow] = useState(null);
   const [flowList, setFlowList] = useState<FlowInterface[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   const [flowsNames, setFlowsNames] = useState<String[]>([]);
 
   let onNothing = ["No flow found"];
