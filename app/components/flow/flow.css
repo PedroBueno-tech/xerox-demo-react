@@ -1,0 +1,12 @@
+.flowContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.ButtonDiv{
+    margin-left: 5px !important;
+}
+.p-highlight{
+    background-color: rgb(217, 34, 49, 0.2) !important;;
+}

@@ -3,24 +3,18 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
-  font-size: 18px;
+  font-size: 18px !important;
+  
 }
-div {
-  margin: 0 !important;
-}
+
 
 p {
   margin: 0 !important;
 }
 
 button {
-  border: 1px solid rgb(255, 255, 255);
+  border-color: #ebebeb;
   background-color: #d92231;
-  height: 38px;
-  padding-left: 30px;
-  padding-right: 30px;
-  font-size: 0.75rem;
   color: white;
 }
 
@@ -31,6 +25,14 @@ button:hover {
 button:disabled {
   background-color: #d66770;
 }
+button:active{
+  box-shadow: 0 0 5px #d92231 !important;
+  outline: none;
+}
+button.clicked {
+  box-shadow: 0 0 5px #d92231 !important;
+  outline: none;
+}
 
 input {
   box-sizing: border-box;
@@ -38,67 +40,55 @@ input {
   -moz-box-sizing: border-box;
 }
 input:focus {
-  box-shadow: 118 118 118 0;
-  outline: 0;
+  border-color: rgb(193, 193, 193) !important;
+  box-shadow: 0 0 5px #d92231 !important;
+  outline: none;
+}
+.p-inputwrapper-focus{
+  border-color: rgb(193, 193, 193) !important;
+  box-shadow: 0 0 5px #d92231 !important;
+  outline: none;
 }
 
 .bodyDiv {
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-color: rgb(#ebebeb);
+  background-color: rgb(255, 255, 255);
   align-items: center;
   justify-content: start;
   flex-direction: column;
+  padding: none;
 }
 
 .contentContainer {
   height: auto;
   width: 80vw;
-  padding: 10px;
+  padding: 0px;
   display: flex;
   justify-content: center;
-  background-color: rgb(#ebebeb);
-  border: 1px solid rgb(193, 193, 193);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #801820;
+  box-shadow: 2px 2px 5px #d92231;
   border-radius: 0;
   flex-direction: column;
   align-items: center;
 }
 
-.loadingScreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(115, 115, 115, 0.5); /* Fundo semi-transparente */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 101;
+body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
 }
 
-.loadingScreen div {
-  padding: 20px;
-  background-color: rgba(235, 235, 235);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body::-webkit-scrollbar-track {
+  background: orange;        /* color of the tracking area */
 }
 
-.loadingScreen img {
-  animation: spin 2s linear infinite;
-  width: 50px;
-  height: 50px;
+body::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
 }
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #d92231 rgb(255, 255, 255);
 }

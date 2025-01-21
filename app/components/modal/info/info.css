@@ -1,0 +1,21 @@
+.modal-overlay-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(115, 115, 115, 0.5); /* Fundo semi-transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 101; /* Certifique-se de que seja maior que o z-index de outros elementos */
+  }
+  
+  .modal-content {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    overflow: auto;
+  }

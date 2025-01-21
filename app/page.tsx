@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import DocumentsForProcess from "./documentsForProcess/documentsForProcess";
-import DossierTimeline from "./dossierTimeline/dossierTimeline";
-import ProcessedDocuments from "./processedDocuments/processedDocuments";
-import Loading from "./modal/loading/loading";
-import Info from "./modal/info/info";
+import DocumentsForProcess from "./components/documentsForProcess/documentsForProcess";
+import DossierTimeline from "./components/dossierTimeline/dossierTimeline";
+import ProcessedDocuments from "./components/processedDocuments/processedDocuments";
+import Loading from "./components/modal/loading/loading";
+import Info from "./components/modal/info/info";
 import { PrimeReactProvider } from "primereact/api";
-import Login from "./modal/login/login";
-import Flow from "./flow/flow";
+import Login from "./components/modal/login/login";
+import Flow from "./components/flow/flow";
 
 export default function Home() {
   //Login area
@@ -58,7 +58,7 @@ export default function Home() {
   };
   
   return (
-    <PrimeReactProvider>
+    <>
       <div className="bodyDiv">
         {loading && <Loading />}
         {!logged && (
@@ -99,6 +99,6 @@ export default function Home() {
           <ProcessedDocuments dossier={dossier} />
         </div>
       </div>
-    </PrimeReactProvider>
+    </>
   );
 }

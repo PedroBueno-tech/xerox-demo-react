@@ -1,0 +1,113 @@
+
+
+.tableWrapper {
+    height: 125px;
+    overflow-y: scroll;
+    margin-bottom: 0;
+    border: none;
+    border-top: 1px solid #801820;
+    border-bottom: 1px solid #801820;
+    box-shadow: 2px 2px 5px #d92231;
+}
+
+.table-for-docProcess {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-for-docProcess th {
+    background-color: #d92231;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #801820;
+    border-top: 1px solid #801820;
+    border-collapse: separate;
+}
+
+.table-for-docProcess td {
+    border-bottom: 1px solid #801820;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.bodyForDocProcess {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px
+}
+
+
+.bodyForDocProcess button {
+    height: 30px;
+    margin: 5px;
+}
+
+.bodyForDocProcess input {
+    height: 25px;
+}
+
+.documentsForProcess {
+    width: 100%;
+    margin-bottom: 10px !important;
+}
+
+.dossierId {
+    width: 30%;
+}
+
+.fileName {
+    width: 70%;
+}
+.document:hover{
+    background-color: rgb(193, 193,193);
+}
+.table-for-docProcess tr:hover {
+    cursor: pointer;
+}
+.selected {
+    background-color: #d0d0d0;
+}
+
+.docButtons{
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.searchDiv{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 1336px) {
+    .options {
+        display: flex;
+        flex-direction: row;
+    }
+    .docButtons{
+        width: 50%;
+    }
+    .searchDiv{
+        width: 50%;
+    }
+}
+
+@media (max-width: 1335px) {
+    .options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .docButtons{
+        width: 100%;
+    }
+    .searchDiv{
+        width: 100%;
+    }
+}

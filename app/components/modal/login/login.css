@@ -1,0 +1,33 @@
+.modal-login {
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 0px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    width: 80%; /* Responsivo */
+    max-height: 80vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginLabel{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.loginContent{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.loginButton{
+    margin-top: 20px !important;
+    width: 100% !important;
+}
+
+.errorAlert{
+    color: rgba(217,34, 49);
+}
