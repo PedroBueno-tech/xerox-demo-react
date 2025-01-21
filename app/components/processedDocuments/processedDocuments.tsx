@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ViewResult from "../modal/viewResult/viewResult";
 import "./processedDocuments.css";
 import { Button } from "primereact/button";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const ProcessedDocuments = ({ dossier }) => {
   let newDossier = dossier?.documentTypes?.sort((a, b) =>
@@ -57,33 +59,50 @@ const ProcessedDocuments = ({ dossier }) => {
       <div className="processedDocuments">
         <strong>Processed Document List</strong>
         <div className="tableWrapper-processed">
-          <table>
-            <thead>
-              <tr>
-                <th className="dossierId">Dossier Identification </th>
-                <th className="documentType">Document Type</th>
-                <th className="status">Status</th>
-                <th className="dateAndTime">Date and Time</th>
-                <th className="result">Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dossier != null &&
-                newDossier?.map((item: any) => (
-                  <tr key={item.id}>
-                    <td className="dossierId">{item.dossier}</td>
-                    <td className="documentType">{item.name}</td>
-                    <td className="status">{itemStatus(item)}</td>
-                    <td className="dateAndTime">
-                      {formatDateIntl(item.audit.createdOn)}
-                    </td>
-                    <td className="result">
-                      <Button onClick={() => openModal(item)} label="View" severity="danger"/>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <DataTable value={newDossier} dataKey="id" responsiveLayout="scroll">
+                {/* Coluna para Dossier Identification */}
+                <Column
+                  field="dossier"
+                  header="Dossier Identification"
+                  bodyClassName="dossierId"
+                />
+          
+                {/* Coluna para Document Type */}
+                <Column
+                  field="name"
+                  header="Document Type"
+                  bodyClassName="documentType"
+                />
+          
+                {/* Coluna para Status */}
+                <Column
+                  field="status"
+                  header="Status"
+                  body={(rowData) => itemStatus(rowData)}
+                  bodyClassName="status"
+                />
+          
+                {/* Coluna para Date and Time */}
+                <Column
+                  field="audit.createdOn"
+                  header="Date and Time"
+                  body={(rowData) => formatDateIntl(rowData.audit.createdOn)}
+                  bodyClassName="dateAndTime"
+                />
+          
+                {/* Coluna para Result com botão */}
+                <Column
+                  header="Result"
+                  body={(rowData) => (
+                    <Button
+                      onClick={() => openModal(rowData)}
+                      label="View"
+                      severity="danger"
+                    />
+                  )}
+                  bodyClassName="result"
+                />
+              </DataTable>
         </div>
       </div>
     </div>

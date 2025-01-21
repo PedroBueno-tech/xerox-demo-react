@@ -34,7 +34,9 @@ const DocumentsForProcess = ({
   let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Inicializa o estado como um array vazio
-  const [documents, setDocuments] = useState<{ key: string; base64: string }[]>([]);
+  const [documents, setDocuments] = useState<{ key: string; base64: string }[]>(
+    []
+  );
   const [brbDocuments, setBrbDocuments] = useState<brbDocuments[]>([]);
 
   // BRB especific
@@ -283,30 +285,14 @@ const DocumentsForProcess = ({
       <div className="documentsForProcess">
         <strong>Documents for process</strong>
         <div className="tableWrapper">
-          <table className="table-for-docProcess">
-            <thead>
-              <tr>
-                <th className="dossierId">Dossier Identification</th>
-                <th className="fileName">File Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...documents, ...brbDocuments].map((item, index) => (
-                <tr
-                  key={index}
-                  className={selectedRow === index ? "selected" : ""}
-                  onClick={() => setSelectedRow(index)}
-                >
-                  <td className="dossierId">{dossier.dossier}</td>
-                  <td className="fileName">{item.key}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          
+          <DataTable
+            documents={[...documents, ...brbDocuments]}
+            dossierName={dossier?.dossier}
+            selectedDoc={setSelectedRow}
+          />
         </div>
       </div>
-      <DataTable documents={[...documents,...brbDocuments]} dossierName={dossier?.dossier} selectedDoc={setSelectedRow}/>
+
       <div className="options">
         <div className="searchDiv">
           <strong style={{ marginLeft: "5px" }}>Dossier Identification:</strong>
@@ -330,9 +316,8 @@ const DocumentsForProcess = ({
           <Button
             disabled={!enableAdd}
             onClick={() => {
-              
               setDoctype("document");
-              selectedFlow? openAddDocumentModal() : alert("No flow selected");
+              selectedFlow ? openAddDocumentModal() : alert("No flow selected");
             }}
             label="Add Document"
             severity="danger"

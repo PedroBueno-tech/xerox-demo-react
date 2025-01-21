@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './viewResult.css'
+import { Button } from "primereact/button";
 
 const ViewResult = ({ item, setModal }) => {
 
@@ -35,7 +36,7 @@ const ViewResult = ({ item, setModal }) => {
                         <li>Message: {item?.message ?? "No message"}</li>
                         <li>
                             LOGS:
-                            <button onClick={() => setLogs(!logs)}>Show</button>
+                            <Button onClick={() => setLogs(!logs)} severity="danger" icon={logs? "pi pi-minus" : "pi pi-plus"} size="small"/>
                             {logs ? (
                                 item?.logs && item.logs.length > 0 ? (
                                     <ul>
@@ -55,13 +56,13 @@ const ViewResult = ({ item, setModal }) => {
 
                         <li>
                             Details:
-                            <button onClick={() => setMore(!more)}>Show More</button>
+                            <Button onClick={() => setMore(!more)} severity="danger" icon={more? "pi pi-minus" : "pi pi-plus"} size="small"/>
                             {more && (
                                 <ul>
                                     <li>File Name: {item?.fileName ?? "No file name"}</li>
                                     <li>
                                         Attributes:
-                                        <button onClick={() => setAttributes(!attributes)}>Show</button>
+                                        <Button onClick={() => setAttributes(!attributes)} severity="danger" icon={attributes? "pi pi-minus" : "pi pi-plus"} size="small"/>
                                         {attributes && (
                                             <AttributesList attributes={item.attributes} />
                                         )}
@@ -70,7 +71,7 @@ const ViewResult = ({ item, setModal }) => {
                                     <li>Step: {item?.step ?? "No step"}</li>
                                     <li>
                                         Audit:
-                                        <button onClick={() => setAudit(!audit)}>Show</button>
+                                        <Button onClick={() => setAudit(!audit)} severity="danger" icon={audit? "pi pi-minus" : "pi pi-plus"} size="small"/>
                                         {audit && (
                                             <ul>
                                                 <li>Created By: {item?.audit.createdBy ?? "No Created By"}</li>
@@ -97,7 +98,7 @@ const ViewResult = ({ item, setModal }) => {
                     </ul>
                 </div>
                 <div className="buttonsDiv">
-                    <button onClick={() => setModal(false)}>Close</button>
+                    <Button onClick={() => setModal(false)} severity="danger" label="Close" />
                 </div>
             </div>
         </div>

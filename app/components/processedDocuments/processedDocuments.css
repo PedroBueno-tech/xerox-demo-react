@@ -3,29 +3,9 @@
     overflow-y: scroll;
     margin-bottom: 0;
     border: none;
-    border-top: 1px solid #801820;
-    border-bottom: 1px solid #801820;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
     box-shadow: 2px 2px 5px #d92231;
-}
-.tableWrapper-processed table{
-    width: 100%;
-    border-collapse: collapse;
-
-}
-.body-forProcessedDocuments thead th {
-    background-color: #d92231;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 2px solid #801820;
-    border-top: 1px solid #801820;
-}
-
-.body-forProcessedDocuments td {
-    white-space: normal;
-    border-bottom: 1px solid #801820;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
 .processedDocuments {

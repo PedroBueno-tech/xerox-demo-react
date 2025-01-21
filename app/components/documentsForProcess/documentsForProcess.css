@@ -5,31 +5,10 @@
     overflow-y: scroll;
     margin-bottom: 0;
     border: none;
-    border-top: 1px solid #801820;
-    border-bottom: 1px solid #801820;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
     box-shadow: 2px 2px 5px #d92231;
 }
-
-.table-for-docProcess {
-    width: 100%;
-    border-collapse: collapse;
-}
-.table-for-docProcess th {
-    background-color: #d92231;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 2px solid #801820;
-    border-top: 1px solid #801820;
-    border-collapse: separate;
-}
-
-.table-for-docProcess td {
-    border-bottom: 1px solid #801820;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
 
 .bodyForDocProcess {
     display: flex;
