@@ -15,6 +15,7 @@ const AddSelfie = ({
 
   type FileEntry = { name: string; value: string };
   const [tempFiles, setTempFiles] = useState<FileEntry[]>([]);
+  const [takePhoto, setTakePhoto] = useState(false);
   const webcam = useRef<Webcam>(null);
 
   const handleFileChange = (event) => {
@@ -113,7 +114,12 @@ const AddSelfie = ({
           />
           <span style={{ marginLeft: "10px" }}>{fileName}</span>
         </div>
-        <WebcamAccess/>
+        <span> Or Take One right now: </span>
+        <Button onClick={() => setTakePhoto(!takePhoto)}  label="Take selfie" severity="danger"/>
+          {takePhoto && (
+            <WebcamAccess/>
+          )}
+        
         <div className="button-group">
           <Button onClick={handleClose} label="Close" />
           <Button onClick={handleSend} label="Send" />
