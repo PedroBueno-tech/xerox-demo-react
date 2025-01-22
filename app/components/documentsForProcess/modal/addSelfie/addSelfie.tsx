@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import "./addSelfie.css";
 import { Button } from "primereact/button";
-import Webcam from "react-webcam";
-import WebcamAccess from "./webcamAcess/webcamAcess";
+import WebcamAccess from "./webcamAcess/webcamAccess";
+import { Photo } from "@/app/components/interfaces/photo";
 
 const AddSelfie = ({
   setModal,
@@ -16,54 +16,88 @@ const AddSelfie = ({
   type FileEntry = { name: string; value: string };
   const [tempFiles, setTempFiles] = useState<FileEntry[]>([]);
 
-  const webcam = useRef<Webcam>(null);
-
   const handleFileChange = (event) => {
     const file = event.target.files;
     setFileName(file ? file.length + " files selected" : "No file chosen");
   };
 
-  const onFileSelectedChange = (event) => {
-    handleFileChange(event);
-    onFileSelected(event);
-  };
-
-  const onFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const input = event.target;
-
-    if (!input.files || input.files.length === 0) {
-      alert("No file selected");
-      return;
+  const onFileSelectedChange = (
+    input: React.ChangeEvent<HTMLInputElement> | Photo
+  ) => {
+    if ("key" in input && "base64" in input) {
+      // Caso seja um objeto do tipo Photo
+      onFileSelected(undefined, input);
+    } else {
+      // Caso seja um evento de input
+      handleFileChange(input);
+      onFileSelected(input);
     }
-
-    Array.from(input.files).forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const base64WithPrefix = reader.result as string;
-        const base64WithoutPrefix = base64WithPrefix.replace(
-          /^data:.*;base64,/,
-          ""
-        ); // Remove o prefixo
-
-        // Atualiza o estado tempFiles de forma imutável
-        setTempFiles((prevFiles) => [
-          ...prevFiles,
-          { name: file.name, value: base64WithoutPrefix },
-        ]);
-      };
-
-      reader.onerror = (error) => {
-        alert("Error reading the file:" + error);
-      };
-
-      reader.readAsDataURL(file);
-    });
   };
+
+  type Photo = {
+    key: string;
+    base64: string;
+  };
+  
+  const onFileSelected = (
+    event?: React.ChangeEvent<HTMLInputElement>,
+    photo?: Photo
+  ) => {
+    // Caso o evento do input seja fornecido
+    if (event) {
+      const input = event.target;
+  
+      if (!input.files || input.files.length === 0) {
+        alert("No file selected");
+        return;
+      }
+  
+      const newFiles = Array.from(input.files).map((file) => {
+        const reader = new FileReader();
+  
+        const promise = new Promise<{ name: string; value: string }>((resolve, reject) => {
+          reader.onload = () => {
+            const base64WithPrefix = reader.result as string;
+            const base64WithoutPrefix = base64WithPrefix.replace(
+              /^data:.*;base64,/,
+              ""
+            );
+            resolve({ name: file.name, value: base64WithoutPrefix });
+          };
+  
+          reader.onerror = () => {
+            reject(new Error("Error reading the file"));
+          };
+  
+          reader.readAsDataURL(file);
+        });
+  
+        return promise;
+      });
+  
+      Promise.all(newFiles)
+        .then((files) => {
+          setTempFiles((prevFiles) => [...prevFiles, ...files]);
+        })
+        .catch((error) => {
+          alert("Error processing files: " + error.message);
+        });
+    }
+  
+    // Caso o objeto Photo seja fornecido
+    if (photo) {
+      setTempFiles((prevFiles) => [
+        ...prevFiles,
+        { name: photo.key, value: photo.base64 },
+      ]);
+    }
+  };
+  
 
   const handleSend = () => {
+
     if (tempFiles.length === 0) {
-      alert("No file selected or file content is invalid");
+      alert("No file selected or Photo taken");
       return;
     }
 
@@ -115,7 +149,7 @@ const AddSelfie = ({
           <span style={{ marginLeft: "10px" }}>{fileName}</span>
         </div>
         <span> Or Take One right now: </span>
-        <WebcamAccess />
+        <WebcamAccess setPhoto={onFileSelectedChange} />
 
         <div className="button-group">
           <Button onClick={handleClose} label="Close" />
