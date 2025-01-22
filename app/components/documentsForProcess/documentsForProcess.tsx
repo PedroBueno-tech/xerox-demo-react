@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import NewDocument from "../modal/newDocument/newDocument";
+import NewDocument from "./modal/newDocument/newDocument";
 import ResultDossier from "../modal/resultDossier/resultDossier";
 import "./documentsForProcess.css";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { brbDocuments } from "../interfaces/BrbDocument";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import DataTable from "./DataTable/dataTable";
+import AddSelfie from "./modal/addSelfie/addSelfie";
 
 const DocumentsForProcess = ({
   header,
@@ -26,6 +27,7 @@ const DocumentsForProcess = ({
   const [enableSearch, setEnableSearch] = useState(true);
   const [enableResultDossier, setEnableResultDossier] = useState(false);
   const [addDocumentModal, setAddDocumentModal] = useState(false);
+  const [addSelfieModal, setAddSelfieModal] = useState(false);
   const [dossierResultModal, setDossierResultModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState<number>(0);
   const [resultDossier, setResultDossier] = useState(null);
@@ -260,6 +262,9 @@ const DocumentsForProcess = ({
   function openAddDocumentModal() {
     setAddDocumentModal(true);
   }
+  function openAddSelfieModal() {
+    setAddSelfieModal(true);
+  }
 
   function openDossierResultModal() {
     setDossierResultModal(true);
@@ -280,6 +285,15 @@ const DocumentsForProcess = ({
           loading={loading}
           selectedFlow={selectedFlow}
           doctype={doctype}
+        />
+      )}
+      {addSelfieModal && (
+        <AddSelfie
+        setModal={setAddSelfieModal}
+        addDocuments={selectedFlow?.id == 15 ? addBrbDocument : addDocument}
+        loading={loading}
+        selectedFlow={selectedFlow}
+        doctype={doctype}
         />
       )}
       <div className="documentsForProcess">
@@ -325,8 +339,8 @@ const DocumentsForProcess = ({
           <Button
             disabled={!enableAdd}
             onClick={() => {
-              openAddDocumentModal();
               setDoctype("selfie");
+              selectedFlow ? openAddSelfieModal() : alert("No flow selected");
             }}
             label="Add Selfie"
             severity="danger"
