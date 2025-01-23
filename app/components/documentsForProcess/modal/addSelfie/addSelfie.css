@@ -15,7 +15,7 @@
   border: 1px solid #000000;
   box-shadow: 2px 2px 5px #d92231;
   width: 80vw;
-  max-height: 80vh;
+  max-height: 100vh;
   min-height: 80vh;
   overflow-y: scroll;
   position: relative;

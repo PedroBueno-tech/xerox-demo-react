@@ -6,7 +6,7 @@
 
 .webcam-video {
   width: 100%; /* Ajusta a largura ao container */
-  max-height: 65vh; /* Limita a altura a 70% do viewport */
+  max-height: 80vh; /* Limita a altura a 70% do viewport */
   height: auto; /* Mantém a proporção da câmera */
   object-fit: cover; /* Preenche o espaço mantendo a proporção */
   border-radius: 8px; /* Opcional: bordas arredondadas para estilização */
