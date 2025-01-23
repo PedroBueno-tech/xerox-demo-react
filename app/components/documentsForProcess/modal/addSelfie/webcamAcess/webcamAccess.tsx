@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import Webcam from "react-webcam";
 import { Photo } from "@/app/components/interfaces/photo";
-import './webcamAccess.css'
+import "./webcamAccess.css";
 
 const WebcamAccess = ({ setPhoto }) => {
   const [takePhoto, setTakePhoto] = useState(false);
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null); // Estado para armazenar a foto capturada
   const webcamRef = React.useRef<Webcam>(null);
 
   const capturePhoto = () => {
@@ -20,6 +21,8 @@ const WebcamAccess = ({ setPhoto }) => {
         };
 
         setPhoto(photo);
+        setCapturedPhoto(imageSrc); // Define a foto capturada
+        setTakePhoto(true);
         alert("Photo captured!");
       } else {
         alert("Failed to capture photo.");
@@ -31,30 +34,50 @@ const WebcamAccess = ({ setPhoto }) => {
 
   return (
     <div>
-      <Button
-        onClick={() => setTakePhoto(!takePhoto)}
-        label={takePhoto ? "Stop Camera" : "Start Camera"}
-        severity="danger"
-      />
-      {takePhoto && (
-        <div className="webcam-container">
-          {/* Webcam */}
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            videoConstraints={{
-              facingMode: "user", // Usa a câmera frontal
-            }}
-            className="webcam-video"
-          />
-          <Button
-            onClick={capturePhoto}
-            label="Capture Photo"
-            style={{ marginTop: "10px" }}
-          />
-        </div>
-      )}
+      <div className="webcam-container">
+        {/* Exibe a webcam enquanto nenhuma foto foi tirada */}
+        {!takePhoto && (
+          <>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              videoConstraints={{
+                width: 1920, // Largura máxima
+                height: 1080, // Altura máxima
+                facingMode: "user", // Usa a câmera frontal
+              }}
+              className="webcam-video"
+            />
+            <Button
+              onClick={capturePhoto}
+              label="Capture Photo"
+              style={{ marginTop: "10px" }}
+            />
+          </>
+        )}
+
+        {takePhoto && capturedPhoto && (
+          <>
+            <div className="webcam-video">
+              <img
+                src={capturedPhoto}
+                alt="Captured"
+                className="webcam-video"
+              />
+            </div>
+            <Button
+              onClick={() => {
+                setTakePhoto(false);
+                setCapturedPhoto(null);
+              }}
+              label="Retake Photo"
+              style={{ marginTop: "10px", marginLeft: "10px" }}
+              severity="secondary"
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };

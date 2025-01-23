@@ -43,7 +43,6 @@ const AddSelfie = ({
     event?: React.ChangeEvent<HTMLInputElement>,
     photo?: Photo
   ) => {
-    // Caso o evento do input seja fornecido
     if (event) {
       const input = event.target;
   
@@ -55,41 +54,41 @@ const AddSelfie = ({
       const newFiles = Array.from(input.files).map((file) => {
         const reader = new FileReader();
   
-        const promise = new Promise<{ name: string; value: string }>((resolve, reject) => {
-          reader.onload = () => {
-            const base64WithPrefix = reader.result as string;
-            const base64WithoutPrefix = base64WithPrefix.replace(
-              /^data:.*;base64,/,
-              ""
-            );
-            resolve({ name: file.name, value: base64WithoutPrefix });
-          };
+        const promise = new Promise<{ name: string; value: string }>(
+          (resolve, reject) => {
+            reader.onload = () => {
+              const base64WithPrefix = reader.result as string;
+              const base64WithoutPrefix = base64WithPrefix.replace(
+                /^data:.*;base64,/,
+                ""
+              );
+              resolve({ name: file.name, value: base64WithoutPrefix });
+            };
   
-          reader.onerror = () => {
-            reject(new Error("Error reading the file"));
-          };
+            reader.onerror = () => {
+              reject(new Error("Error reading the file"));
+            };
   
-          reader.readAsDataURL(file);
-        });
+            reader.readAsDataURL(file);
+          }
+        );
   
         return promise;
       });
   
       Promise.all(newFiles)
         .then((files) => {
-          setTempFiles((prevFiles) => [...prevFiles, ...files]);
+          // Substituir arquivos antigos pela nova seleção
+          setTempFiles(files);
         })
         .catch((error) => {
           alert("Error processing files: " + error.message);
         });
     }
   
-    // Caso o objeto Photo seja fornecido
     if (photo) {
-      setTempFiles((prevFiles) => [
-        ...prevFiles,
-        { name: photo.key, value: photo.base64 },
-      ]);
+      // Substituir arquivos antigos pela nova foto
+      setTempFiles([{ name: photo.key, value: photo.base64 }]);
     }
   };
   
@@ -131,8 +130,8 @@ const AddSelfie = ({
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Upload New Selfie</h2>
+      <div className="modal-content-selfie">
+        {/*<h2>Upload New Selfie</h2>
 
         <div>
           <label>File Path: </label>
@@ -148,7 +147,7 @@ const AddSelfie = ({
           />
           <span style={{ marginLeft: "10px" }}>{fileName}</span>
         </div>
-        <span> Or Take One right now: </span>
+        <span> Or Take One right now: </span>*/}
         <WebcamAccess setPhoto={onFileSelectedChange} />
 
         <div className="button-group">
