@@ -96,7 +96,7 @@ const AddSelfie = ({
   const handleSend = () => {
 
     if (tempFiles.length === 0) {
-      alert("No file selected or Photo taken");
+      alert("No file selected or Selfie taken");
       return;
     }
 

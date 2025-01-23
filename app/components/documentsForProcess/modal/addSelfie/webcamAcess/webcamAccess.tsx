@@ -23,9 +23,9 @@ const WebcamAccess = ({ setPhoto }) => {
         setPhoto(photo);
         setCapturedPhoto(imageSrc); // Define a foto capturada
         setTakePhoto(true);
-        alert("Photo captured!");
+        alert("Selfie captured!");
       } else {
-        alert("Failed to capture photo.");
+        alert("Failed to capture Selfie.");
       }
     } else {
       alert("Webcam is not available.");
@@ -51,7 +51,7 @@ const WebcamAccess = ({ setPhoto }) => {
             />
             <Button
               onClick={capturePhoto}
-              label="Capture Photo"
+              label="Capture selfie"
               style={{ marginTop: "10px" }}
             />
           </>
@@ -71,7 +71,7 @@ const WebcamAccess = ({ setPhoto }) => {
                 setTakePhoto(false);
                 setCapturedPhoto(null);
               }}
-              label="Retake Photo"
+              label="Retake Selfie"
               style={{ marginTop: "10px", marginLeft: "10px" }}
               severity="secondary"
             />
