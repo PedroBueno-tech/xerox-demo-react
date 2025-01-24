@@ -10,7 +10,6 @@ const Flow = ({ header, apiUrl, logged, selectedFlow }) => {
   const [flowList, setFlowList] = useState<FlowInterface[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   const [flowsNames, setFlowsNames] = useState<String[]>([]);
-
   let onNothing = ["No flow found"];
 
   useEffect(() => {
@@ -28,7 +27,10 @@ const Flow = ({ header, apiUrl, logged, selectedFlow }) => {
   }, [flow]);
 
   function setFlowNameList() {
-    const names = flowList.map((flow) => flow?.name ?? "");
+    let names = flowList.map((flow) => flow?.name ?? "");
+    names = names.sort((a, b) =>
+      a < b ? -1 : 1
+    );
     setFlowsNames(names);
   }
 
